@@ -43,13 +43,4 @@ object NewInstance{
     }
   }
  }
-object Test1{
-  case class Person(name:String,age:Int,sex:Option[String])
-  def main (args: Array[String]) ={
-    val start=System.currentTimeMillis()
-    val p=NewInstance[Person](Map("name"->""))
-    val res=(System.currentTimeMillis()-start)
-    println(p.age+p.name)
-    res
-  }
-}
+
