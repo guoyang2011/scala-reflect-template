@@ -1,13 +1,12 @@
 package cn.changhong.reflect.util
 
-import org.jblas.DoubleMatrix
-
 import scala.reflect.ClassTag
 import scala.reflect.runtime.{currentMirror=>cm}
 import scala.reflect.runtime.universe._
 /**
  * Created by yangguo on 15-3-9.
  */
+@deprecated("Use NewInstance1")
 object NewInstance{
   def apply[A](args:Map[String,Any])(implicit t:ClassTag[A]):A={
     val claas=cm.classSymbol(t.runtimeClass)
