@@ -5,6 +5,16 @@ import scala.reflect.runtime.universe._
 import scala.reflect.runtime.{universe=>rus}
 /**
  * Created by yangguo on 15-3-10.
+ *
+ *
+ * Unfortunately, in its current state released in Scala 2.10.0,
+ * reflection is not thread safe. There’s a JIRA issue SI-6240(https://issues.scala-lang.org/browse/SI-6240),
+ * which can be used to track our progress and to look up technical details,
+ * and here’s a concise summary of the state of the art.
+ * NEW Thread safety issues have been fixed in Scala 2.11.0-RC1,
+ * but we are going to keep this document available for now,
+ * since the problem still remains in the Scala 2.10.x series,
+ * and we currently don't have concrete plans on when the fix is going to be backported.
  */
 object NewInstance1 {
   implicit val mirror=rus.runtimeMirror(getClass.getClassLoader)
@@ -17,6 +27,7 @@ object NewInstance1 {
   def createConstructorArgs(values:Map[String,Any],methodSymbol:MethodSymbol):Seq[Any]={
     methodSymbol.paramss.flatMap(pp=>pp).map{p=>
       val value = values.get(p.name.toString)
+      println(p.name.toString)
       if (p.typeSignature <:< typeOf[Option[_]]) value
       else {
         if (!value.isEmpty) value.get
@@ -52,4 +63,5 @@ object Test{
     val bean1=NewInstance1[UserBean](args)
     println(bean1.p)
   }
+
 }
